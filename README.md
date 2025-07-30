@@ -1,6 +1,6 @@
 # CoreWebApp - ASP.NET Core Web Application
 
-A modern ASP.NET Core 8.0 web application built with Razor Pages, featuring user authentication, database management, and dynamic navigation.
+A modern ASP.NET Core 8.0 web application built with Razor Pages, featuring user authentication, database management, dynamic navigation, and a clean, maintainable codebase.
 
 ## 🚀 Technology Stack
 
@@ -35,11 +35,20 @@ A modern ASP.NET Core 8.0 web application built with Razor Pages, featuring user
 
 ```
 CoreWebApp/
-├── Pages/                 # Razor Pages
+├── Pages/                 # Razor Pages (organized in folders)
 │   ├── Shared/           # Layout and partial views
-│   ├── Login.cshtml      # Authentication page
-│   ├── Companies.cshtml  # Company management
-│   └── ...
+│   ├── Login/            # Authentication page
+│   │   ├── Login.cshtml
+│   │   └── Login.cshtml.cs
+│   ├── Companies/        # Company management
+│   │   ├── Companies.cshtml
+│   │   └── Companies.cshtml.cs
+│   ├── Logout/           # Logout functionality
+│   ├── Dashboard/        # User dashboard
+│   ├── Users/            # User management
+│   ├── ImportData/       # Data import functionality
+│   ├── DatabaseInfo/     # Database management
+│   └── Debug/            # Debug utilities
 ├── Models/               # Data models
 │   ├── User.cs          # User entity
 │   ├── Company.cs       # Company entity
@@ -50,7 +59,10 @@ CoreWebApp/
 │   ├── UserService.cs   # User service implementation
 │   ├── IAuthService.cs  # Authentication service interface
 │   ├── AuthService.cs   # Authentication service implementation
-│   └── ...
+│   ├── ICsvImportService.cs  # CSV import service interface
+│   ├── CsvImportService.cs   # CSV import service implementation
+│   ├── IAuthHelperService.cs # Auth helper service interface
+│   └── AuthHelperService.cs  # Auth helper service implementation
 ├── Data/               # Data access layer
 │   ├── ApplicationDbContext.cs  # EF Core DbContext
 │   ├── IDbInitializer.cs       # Database initializer interface
@@ -91,6 +103,7 @@ CoreWebApp/
 - **Related data** (Chatbots, LLMs) display
 - **Modal dialogs** for detailed views
 - **Authentication required** access
+- **Sticky header** that remains visible when scrolling
 
 ### **5. Data Import System**
 
@@ -108,6 +121,7 @@ public interface IUserService
 public interface IAuthService
 public interface ICsvImportService
 public interface IDbInitializer
+public interface IAuthHelperService
 ```
 
 ### **Database Models**
@@ -140,6 +154,13 @@ public class LLM
 - .NET 8.0 SDK
 - Visual Studio 2022 or VS Code
 - SQLite (included with EF Core)
+
+### **Code Quality & Organization**
+
+- **Clean, maintainable code** with no redundant elements
+- **Proper file organization** with pages in dedicated folders
+- **Comprehensive .gitignore** files for both root and project levels
+- **Optimized performance** with streamlined service methods
 
 ### **Installation**
 
@@ -254,6 +275,12 @@ CREATE TABLE LLMs (
 - **Flexible layouts** that adapt to screen size
 - **Touch-friendly** navigation and buttons
 
+### **Enhanced User Experience**
+
+- **Sticky headers** for better navigation during scrolling
+- **Dynamic navigation** that adapts to authentication status
+- **Clean, organized file structure** for better maintainability
+
 ### **Modern Interface**
 
 - **Clean, minimalist design** with Bootstrap components
@@ -334,6 +361,18 @@ builder.Services.AddScoped<ICsvImportService, CsvImportService>();
 - **Async/await** for non-blocking operations
 - **Proper error handling** and logging
 - **Security considerations** (password hashing, session management)
+- **Code organization** with pages in dedicated folders
+- **Redundant code removal** for better maintainability
+- **Comprehensive .gitignore** for clean repositories
+
+### **Recent Improvements**
+
+- **Sticky header** implementation for Companies page
+- **File organization** with pages moved to dedicated folders
+- **Redundant code cleanup** (removed unused methods and duplicate logging)
+- **Navigation route updates** to work with new folder structure
+- **Comprehensive .gitignore** files for both root and project levels
+- **Performance optimizations** through code streamlining
 
 ### **Future Enhancements**
 

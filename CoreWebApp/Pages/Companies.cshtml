@@ -1,0 +1,204 @@
+@page
+@model CoreWebApp.Pages.CompaniesModel
+@{
+    ViewData["Title"] = "Companies";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">Companies</h1>
+                <div>
+                    <span class="badge bg-primary fs-6">@Model.CompaniesCount Companies</span>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-@(Model.Success ? "success" : "danger") alert-dismissible fade show" role="alert">
+                    @Model.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Message) && !Model.Success)
+            {
+                <div class="text-center py-5">
+                    <div class="mb-3">
+                        <i class="bi bi-lock fs-1 text-muted"></i>
+                    </div>
+                    <h4 class="text-muted">Authentication Required</h4>
+                    <p class="text-muted">@Model.Message</p>
+                    <a asp-page="/Login" class="btn btn-primary">
+                        <i class="bi bi-box-arrow-in-right"></i> Sign In
+                    </a>
+                </div>
+            }
+            else if (Model.Companies.Any())
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Description</th>
+                                        <th>Chatbots</th>
+                                        <th>LLMs</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var company in Model.Companies)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@company.Name</strong>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">
+                                                    @(company.Description.Length > 100 ? company.Description.Substring(0, 100) + "..." : company.Description)
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">@company.Chatbots.Count</span>
+                                                @if (company.Chatbots.Any())
+                                                {
+                                                    <small class="text-muted d-block">
+                                                        @string.Join(", ", company.Chatbots.Take(2).Select(c => c.Name))
+                                                        @if (company.Chatbots.Count > 2)
+                                                        {
+                                                            <span>+@(company.Chatbots.Count - 2) more</span>
+                                                        }
+                                                    </small>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-success">@company.LLMs.Count</span>
+                                                @if (company.LLMs.Any())
+                                                {
+                                                    <small class="text-muted d-block">
+                                                        @string.Join(", ", company.LLMs.Take(2).Select(l => l.Name))
+                                                        @if (company.LLMs.Count > 2)
+                                                        {
+                                                            <span>+@(company.LLMs.Count - 2) more</span>
+                                                        }
+                                                    </small>
+                                                }
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">
+                                                    @company.CreatedAt.ToString("MMM dd, yyyy")
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#companyModal-@company.Id">
+                                                        View
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm">
+                                                        Edit
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <div class="mb-3">
+                        <i class="bi bi-building fs-1 text-muted"></i>
+                    </div>
+                    <h4 class="text-muted">No Companies Found</h4>
+                    <p class="text-muted">No companies have been imported yet.</p>
+                    <a asp-page="/ImportData" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Data
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Company Detail Modals -->
+@foreach (var company in Model.Companies)
+{
+    <div class="modal fade" id="companyModal-@company.Id" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@company.Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <h6>Description</h6>
+                            <p class="text-muted">@company.Description</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6>Chatbots (@company.Chatbots.Count)</h6>
+                            @if (company.Chatbots.Any())
+                            {
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var chatbot in company.Chatbots)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            @chatbot.Name
+                                            <small class="text-muted">@chatbot.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No chatbots</p>
+                            }
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6>LLMs (@company.LLMs.Count)</h6>
+                            @if (company.LLMs.Any())
+                            {
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var llm in company.LLMs)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <strong>@llm.Name</strong>
+                                                    <br>
+                                                    <small class="text-muted">@llm.Specialization</small>
+                                                </div>
+                                                <small class="text-muted">@llm.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No LLMs</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

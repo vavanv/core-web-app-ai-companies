@@ -1,0 +1,76 @@
+@page
+@model CoreWebApp.Pages.DebugModel
+@{
+    ViewData["Title"] = "Debug Info";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3">Debug Information</h1>
+            
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-@(Model.Success ? "success" : "danger") alert-dismissible fade show" role="alert">
+                    @Model.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>Authentication Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Is Authenticated:</strong> @Model.IsAuthenticated</p>
+                            <p><strong>Current User:</strong> @Model.CurrentUser</p>
+                            <p><strong>Session User ID:</strong> @Model.SessionUserId</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>Database Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Database Connected:</strong> @Model.DatabaseConnected</p>
+                            <p><strong>Companies Table Exists:</strong> @Model.CompaniesTableExists</p>
+                            <p><strong>Companies Count:</strong> @Model.CompaniesCount</p>
+                            <p><strong>Users Count:</strong> @Model.UsersCount</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Database Tables</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach (var table in Model.DatabaseTables)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @table
+                                <span class="badge bg-primary rounded-pill">✓</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a asp-page="/ImportData" class="btn btn-primary">
+                    <i class="bi bi-upload"></i> Go to Import Data
+                </a>
+                <a asp-page="/Companies" class="btn btn-secondary">
+                    <i class="bi bi-building"></i> Go to Companies
+                </a>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,162 @@
+@page
+@model ImportDataModel
+@{
+    ViewData["Title"] = "Import CSV Data";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Import CSV Data</h1>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="row">
+            <div class="col-12">
+                @if (Model.Success)
+                {
+                    <div class="alert alert-success">
+                        <h5>Import Successful!</h5>
+                        <p>@Model.Message</p>
+                        @if (Model.ImportResult != null)
+                        {
+                            <ul class="mb-0">
+                                <li>Companies imported: @Model.ImportResult.CompaniesImported</li>
+                                <li>Chatbots imported: @Model.ImportResult.ChatbotsImported</li>
+                                <li>LLMs imported: @Model.ImportResult.LLMsImported</li>
+                            </ul>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <h5>Import Failed</h5>
+                        <p>@Model.Message</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Import Options</h5>
+                </div>
+                <div class="card-body">
+                    <p>This will import data from the <code>files/spec.csv</code> file into the database.</p>
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <button type="submit" name="action" value="import" class="btn btn-primary">
+                                <i class="bi bi-upload"></i> Import CSV Data
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" name="action" value="clear" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to clear all data? This cannot be undone.')">
+                                <i class="bi bi-trash"></i> Clear All Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Database Status</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Companies:</strong> @Model.CompaniesCount</p>
+                    <p><strong>Chatbots:</strong> @Model.ChatbotsCount</p>
+                    <p><strong>LLMs:</strong> @Model.LLMsCount</p>
+                    <p><strong>Users:</strong> @Model.UsersCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.CompaniesCount > 0)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">Sample Data</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Chatbots</th>
+                                        <th>LLMs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var company in Model.SampleCompanies)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@company.Name</strong><br>
+                                                <small class="text-muted">@company.Description.Substring(0, Math.Min(100, company.Description.Length))...</small>
+                                            </td>
+                                            <td>
+                                                @if (company.Chatbots.Any())
+                                                {
+                                                    <ul class="list-unstyled mb-0">
+                                                        @foreach (var chatbot in company.Chatbots.Take(3))
+                                                        {
+                                                            <li>@chatbot.Name</li>
+                                                        }
+                                                        @if (company.Chatbots.Count > 3)
+                                                        {
+                                                            <li><em>+@(company.Chatbots.Count - 3) more</em></li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">None</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (company.LLMs.Any())
+                                                {
+                                                    <ul class="list-unstyled mb-0">
+                                                        @foreach (var llm in company.LLMs.Take(3))
+                                                        {
+                                                            <li><strong>@llm.Name</strong><br>
+                                                                <small class="text-muted">@llm.Specialization.Substring(0, Math.Min(50, llm.Specialization.Length))...</small>
+                                                            </li>
+                                                        }
+                                                        @if (company.LLMs.Count > 3)
+                                                        {
+                                                            <li><em>+@(company.LLMs.Count - 3) more</em></li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">None</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

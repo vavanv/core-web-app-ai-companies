@@ -1,0 +1,24 @@
+@page
+@model CoreWebApp.Pages.LogoutModel
+@{
+    ViewData["Title"] = "Logout";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-box-arrow-right fs-1 text-muted"></i>
+                    </div>
+                    <h4>Signing Out...</h4>
+                    <p class="text-muted">You have been successfully logged out.</p>
+                    <a asp-page="/Index" class="btn btn-primary">
+                        <i class="bi bi-house"></i> Go to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

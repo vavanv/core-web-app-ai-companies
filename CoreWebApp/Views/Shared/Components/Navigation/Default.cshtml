@@ -1,0 +1,45 @@
+@model CoreWebApp.ViewComponents.NavigationViewModel
+
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+    </li>
+    
+    @if (Model.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Users">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Companies">Companies</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/DatabaseInfo">Database</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/ImportData">Import Data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Debug">Debug</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-danger me-2" asp-area="" asp-page="/Logout">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-outline-primary me-2" asp-area="" asp-page="/Login">
+                <i class="bi bi-box-arrow-in-right"></i> Sign In
+            </a>
+        </li>
+    }
+</ul> 

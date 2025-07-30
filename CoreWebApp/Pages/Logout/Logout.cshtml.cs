@@ -21,9 +21,7 @@ namespace CoreWebApp.Pages
             {
                 // Perform logout
                 await _authService.LogoutAsync();
-                
-                _logger.LogInformation("User logged out successfully");
-                
+
                 // Redirect to home page
                 return RedirectToPage("/Index");
             }
@@ -34,4 +32,4 @@ namespace CoreWebApp.Pages
             }
         }
     }
-} 
+}

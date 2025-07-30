@@ -4,11 +4,10 @@ namespace CoreWebApp.Services
 {
     public interface IAuthService
     {
-        Task<AuthResult> LoginAsync(string email, string password);
-        Task<bool> LogoutAsync();
-        Task<AuthResult> RegisterAsync(User user, string password);
-        Task<bool> IsUserAuthenticatedAsync();
-        Task<User?> GetCurrentUserAsync();
+            Task<AuthResult> LoginAsync(string email, string password);
+    Task<bool> LogoutAsync();
+    Task<bool> IsUserAuthenticatedAsync();
+    Task<User?> GetCurrentUserAsync();
     }
 
     public class AuthResult

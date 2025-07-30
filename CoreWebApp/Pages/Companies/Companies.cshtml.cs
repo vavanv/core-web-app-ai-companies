@@ -49,35 +49,25 @@ namespace CoreWebApp.Pages
                     return Page();
                 }
 
-                // Try to load companies directly - if it fails, the table doesn't exist
-                try
-                {
-                    Companies = await _context.Companies
-                        .Include(c => c.Chatbots)
-                        .Include(c => c.LLMs)
-                        .OrderBy(c => c.Name)
-                        .ToListAsync();
-                    
-                    CompaniesCount = Companies.Count;
-                    
-                    // Log that user is viewing companies
-                    _logger.LogInformation("User {Email} viewed companies page. Found {Count} companies.", 
-                        currentUser.Email, CompaniesCount);
-                    
-                    Success = true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error loading companies - table may not exist");
-                    CompaniesCount = 0;
-                    Message = "Database tables not found. Please import data first.";
-                    Success = false;
-                }
+                // Load companies
+                Companies = await _context.Companies
+                    .Include(c => c.Chatbots)
+                    .Include(c => c.LLMs)
+                    .OrderBy(c => c.Name)
+                    .ToListAsync();
+                
+                CompaniesCount = Companies.Count;
+                
+                // Log that user is viewing companies
+                _logger.LogInformation("User {Email} viewed companies page. Found {Count} companies.", 
+                    currentUser.Email, CompaniesCount);
+                
+                Success = true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading companies");
-                Message = "Error loading companies from database.";
+                Message = "Database tables not found. Please import data first.";
                 Success = false;
                 CompaniesCount = 0;
             }

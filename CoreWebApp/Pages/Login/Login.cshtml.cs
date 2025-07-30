@@ -31,9 +31,6 @@ namespace CoreWebApp.Pages
             [DataType(DataType.Password)]
             [StringLength(100, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
             public string Password { get; set; } = string.Empty;
-
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
         }
 
         public void OnGet(string? returnUrl = null)
@@ -51,12 +48,6 @@ namespace CoreWebApp.Pages
 
                 if (authResult.Success)
                 {
-                    _logger.LogInformation("User logged in: {Email}", Input.Email);
-
-                    // In a real application, you would:
-                    // 1. Create authentication cookies/tokens
-                    // 2. Redirect to the intended page
-
                     return LocalRedirect(returnUrl);
                 }
                 else

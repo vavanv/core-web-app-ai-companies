@@ -80,42 +80,7 @@ namespace CoreWebApp.Services
             }
         }
 
-        public async Task<AuthResult> RegisterAsync(User user, string password)
-        {
-            try
-            {
-                // Set the password hash
-                user.PasswordHash = password; // The UserService will hash this
 
-                var success = await _userService.CreateUserAsync(user);
-
-                if (success)
-                {
-                    _logger.LogInformation("User registered successfully: {Email}", user.Email);
-                    return new AuthResult
-                    {
-                        Success = true,
-                        Message = "Registration successful",
-                        User = user
-                    };
-                }
-
-                return new AuthResult
-                {
-                    Success = false,
-                    Message = "User with this email already exists"
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error during registration for email: {Email}", user.Email);
-                return new AuthResult
-                {
-                    Success = false,
-                    Message = "An error occurred during registration"
-                };
-            }
-        }
 
         public Task<bool> IsUserAuthenticatedAsync()
         {

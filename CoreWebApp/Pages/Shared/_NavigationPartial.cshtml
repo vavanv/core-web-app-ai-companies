@@ -10,14 +10,14 @@
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
     </li>
-    
+
     @if (isAuthenticated)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-page="/Companies">Companies</a>
+            <a class="nav-link text-dark" asp-area="" asp-page="/Companies/Companies">Companies</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-outline-danger me-2" asp-area="" asp-page="/Logout">
+            <a class="btn btn-outline-danger me-2" asp-area="" asp-page="/Logout/Logout">
                 <i class="bi bi-box-arrow-right"></i> Sign Out
             </a>
         </li>
@@ -25,9 +25,9 @@
     else
     {
         <li class="nav-item">
-            <a class="btn btn-outline-primary me-2" asp-area="" asp-page="/Login">
+            <a class="btn btn-outline-primary me-2" asp-area="" asp-page="/Login/Login">
                 <i class="bi bi-box-arrow-in-right"></i> Sign In
             </a>
         </li>
     }
-</ul> 
+</ul>

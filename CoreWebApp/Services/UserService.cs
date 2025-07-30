@@ -78,55 +78,7 @@ namespace CoreWebApp.Services
             }
         }
 
-        public async Task<bool> UpdateUserAsync(User user)
-        {
-            try
-            {
-                var existingUser = await _context.Users.FindAsync(user.Id);
-                if (existingUser == null)
-                {
-                    _logger.LogWarning("User not found for update: {Id}", user.Id);
-                    return false;
-                }
 
-                existingUser.FirstName = user.FirstName;
-                existingUser.LastName = user.LastName;
-                existingUser.Email = user.Email;
-                existingUser.IsActive = user.IsActive;
-
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("User updated successfully: {Email}", user.Email);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating user: {Id}", user.Id);
-                return false;
-            }
-        }
-
-        public async Task<bool> DeleteUserAsync(int userId)
-        {
-            try
-            {
-                var user = await _context.Users.FindAsync(userId);
-                if (user == null)
-                {
-                    _logger.LogWarning("User not found for deletion: {Id}", userId);
-                    return false;
-                }
-
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("User deleted successfully: {Email}", user.Email);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting user: {Id}", userId);
-                return false;
-            }
-        }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {

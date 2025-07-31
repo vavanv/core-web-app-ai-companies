@@ -1,12 +1,12 @@
 @using CoreWebApp.Services
-@inject IAuthHelperService AuthHelperService
+@inject IContextHelperService ContextHelper
 
 @{
-    var isAuthenticated = await AuthHelperService.IsUserAuthenticatedAsync();
-    var currentUser = await AuthHelperService.GetCurrentUserAsync();
+    var isAuthenticated = ContextHelper.IsAuthenticated;
+    var currentUser = ContextHelper.CurrentUser;
 }
 
-<ul class="navbar-nav">
+<ul class="navbar-nav me-auto">
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
     </li>
@@ -16,16 +16,37 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-page="/Companies/Companies">Companies</a>
         </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-danger me-2" asp-area="" asp-page="/Logout/Logout">
-                <i class="bi bi-box-arrow-right"></i> Sign Out
+    }
+</ul>
+
+<ul class="navbar-nav">
+    @if (isAuthenticated && currentUser != null)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle"></i>
+                @currentUser.FirstName @currentUser.LastName
             </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><span class="dropdown-item-text text-muted">@currentUser.Email</span></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Dashboard/Dashboard">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Users/Users">
+                    <i class="bi bi-people"></i> Users
+                </a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" asp-area="" asp-page="/Logout/Logout">
+                    <i class="bi bi-box-arrow-right"></i> Sign Out
+                </a></li>
+            </ul>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="btn btn-outline-primary me-2" asp-area="" asp-page="/Login/Login">
+            <a class="btn btn-outline-primary" asp-area="" asp-page="/Login/Login">
                 <i class="bi bi-box-arrow-in-right"></i> Sign In
             </a>
         </li>

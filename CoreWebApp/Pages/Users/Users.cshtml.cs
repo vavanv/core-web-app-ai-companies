@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CoreWebApp.Services;
 using CoreWebApp.Models;
+using System.Text.Json;
 
 namespace CoreWebApp.Pages
 {
@@ -29,6 +30,37 @@ namespace CoreWebApp.Pages
             {
                 _logger.LogError(ex, "Error loading users");
                 return RedirectToPage("/Error");
+            }
+        }
+
+        public async Task<IActionResult> OnGetGetUserAsync(int id)
+        {
+            try
+            {
+                var user = await _userService.GetUserByIdAsync(id);
+                if (user == null)
+                {
+                    return new JsonResult(new { success = false, message = "User not found" });
+                }
+
+                // Return user data without password
+                var userData = new
+                {
+                    id = user.Id,
+                    firstName = user.FirstName,
+                    lastName = user.LastName,
+                    email = user.Email,
+                    isActive = user.IsActive,
+                    createdAt = user.CreatedAt,
+                    lastLoginAt = user.LastLoginAt
+                };
+
+                return new JsonResult(new { success = true, user = userData });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user details for ID: {UserId}", id);
+                return new JsonResult(new { success = false, message = "Error retrieving user details" });
             }
         }
     }

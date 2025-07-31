@@ -62,7 +62,11 @@ CoreWebApp/
 │   ├── ICsvImportService.cs  # CSV import service interface
 │   ├── CsvImportService.cs   # CSV import service implementation
 │   ├── IAuthHelperService.cs # Auth helper service interface
-│   └── AuthHelperService.cs  # Auth helper service implementation
+│   ├── AuthHelperService.cs  # Auth helper service implementation
+│   ├── IContextHelperService.cs # Context helper service interface
+│   └── ContextHelperService.cs  # Context helper service implementation
+├── Middleware/         # Custom middleware
+│   └── AuthenticationMiddleware.cs # Authentication middleware
 ├── Data/               # Data access layer
 │   ├── ApplicationDbContext.cs  # EF Core DbContext
 │   ├── IDbInitializer.cs       # Database initializer interface
@@ -81,8 +85,10 @@ CoreWebApp/
 
 - **Session-based authentication** with secure password hashing
 - **Login/Logout functionality** with dynamic navigation
-- **User management** with CRUD operations
+- **User management** with read-only view capabilities
 - **Session persistence** across requests
+- **Authentication middleware** for automatic session validation
+- **User information display** in navigation menu
 
 ### **2. Database Management**
 
@@ -104,6 +110,7 @@ CoreWebApp/
 - **Modal dialogs** for detailed views
 - **Authentication required** access
 - **Sticky header** that remains visible when scrolling
+- **Read-only interface** with view-only actions
 
 ### **5. Data Import System**
 
@@ -122,6 +129,7 @@ public interface IAuthService
 public interface ICsvImportService
 public interface IDbInitializer
 public interface IAuthHelperService
+public interface IContextHelperService
 ```
 
 ### **Database Models**
@@ -139,7 +147,9 @@ public class LLM
 1. **Login Page** → User enters credentials
 2. **AuthService** → Validates credentials against database
 3. **Session Storage** → Stores user ID in session
-4. **Navigation Update** → Shows/hides menu items based on auth status
+4. **Authentication Middleware** → Validates session on every request
+5. **Context Helper** → Provides user info to views
+6. **Navigation Update** → Shows/hides menu items based on auth status
 
 ### **Database Relationships**
 
@@ -161,6 +171,8 @@ public class LLM
 - **Proper file organization** with pages in dedicated folders
 - **Comprehensive .gitignore** files for both root and project levels
 - **Optimized performance** with streamlined service methods
+- **Authentication middleware** for centralized session validation
+- **Context helper services** for efficient user data access
 
 ### **Installation**
 
@@ -280,6 +292,9 @@ CREATE TABLE LLMs (
 - **Sticky headers** for better navigation during scrolling
 - **Dynamic navigation** that adapts to authentication status
 - **Clean, organized file structure** for better maintainability
+- **User dropdown menu** with personal information display
+- **Professional modal dialogs** for detailed information viewing
+- **Read-only interfaces** for secure data management
 
 ### **Modern Interface**
 
@@ -323,7 +338,14 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 // Custom services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthHelperService, AuthHelperService>();
+builder.Services.AddScoped<IContextHelperService, ContextHelperService>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<ICsvImportService, CsvImportService>();
+builder.Services.AddHttpContextAccessor();
+
+// Middleware registration
+app.UseAuthenticationMiddleware();
 ```
 
 ## 🧪 Testing
@@ -364,9 +386,18 @@ builder.Services.AddScoped<ICsvImportService, CsvImportService>();
 - **Code organization** with pages in dedicated folders
 - **Redundant code removal** for better maintainability
 - **Comprehensive .gitignore** for clean repositories
+- **Middleware architecture** for cross-cutting concerns
+- **Context-based services** for efficient data access
+- **Read-only interfaces** for secure data management
 
 ### **Recent Improvements**
 
+- **Authentication middleware** implementation for automatic session validation
+- **User management interface** with read-only grid and detailed modal views
+- **Companies interface** simplified to view-only actions
+- **User dropdown menu** in navigation with personal information display
+- **Context helper services** for efficient user data access in views
+- **Enhanced modal dialogs** with professional styling and AJAX loading
 - **Sticky header** implementation for Companies page
 - **File organization** with pages moved to dedicated folders
 - **Redundant code cleanup** (removed unused methods and duplicate logging)

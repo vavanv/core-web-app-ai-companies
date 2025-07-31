@@ -11,13 +11,13 @@ namespace CoreWebApp.Pages
     {
         private readonly ILogger<CompaniesModel> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly IAuthService _authService;
+        private readonly IContextHelperService _contextHelper;
 
-        public CompaniesModel(ILogger<CompaniesModel> logger, ApplicationDbContext context, IAuthService authService)
+        public CompaniesModel(ILogger<CompaniesModel> logger, ApplicationDbContext context, IContextHelperService contextHelper)
         {
             _logger = logger;
             _context = context;
-            _authService = authService;
+            _contextHelper = contextHelper;
         }
 
         public string Message { get; set; } = string.Empty;
@@ -29,8 +29,8 @@ namespace CoreWebApp.Pages
         {
             try
             {
-                // Check if user is authenticated
-                var isAuthenticated = await _authService.IsUserAuthenticatedAsync();
+                // Check if user is authenticated using middleware context
+                var isAuthenticated = _contextHelper.IsAuthenticated;
                 if (!isAuthenticated)
                 {
                     Message = "Please log in to view companies.";
@@ -39,8 +39,8 @@ namespace CoreWebApp.Pages
                     return Page();
                 }
 
-                // Get current user
-                var currentUser = await _authService.GetCurrentUserAsync();
+                // Get current user from middleware context
+                var currentUser = _contextHelper.CurrentUser;
                 if (currentUser == null)
                 {
                     Message = "User session not found. Please log in again.";

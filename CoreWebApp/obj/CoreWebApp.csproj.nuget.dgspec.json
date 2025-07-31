@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Develop\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj": {}
+    "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj": {}
   },
   "projects": {
-    "D:\\Develop\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj": {
+    "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Develop\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
+        "projectUniqueName": "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
         "projectName": "CoreWebApp",
-        "projectPath": "D:\\Develop\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
+        "projectPath": "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
         "packagesPath": "C:\\Users\\vorobiev\\.nuget\\packages\\",
-        "outputPath": "D:\\Develop\\CoreWebApp\\CoreWebApp\\obj\\",
+        "outputPath": "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7tsoEG2Fy3Y=",
+  "dgSpecHash": "jKy5VHpoyk4=",
   "success": true,
-  "projectFilePath": "D:\\Develop\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
+  "projectFilePath": "C:\\Develop\\Core\\CoreWebApp\\CoreWebApp\\CoreWebApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vorobiev\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\vorobiev\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
